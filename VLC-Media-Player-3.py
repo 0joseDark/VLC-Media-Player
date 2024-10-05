@@ -20,11 +20,14 @@ import vlc
 class VLCPlayer:
     def __init__(self, root):
         self.root = root
-        self.root.title("VLC Media Player")  # Título da janela
-        self.root.geometry("500x200")  # Tamanho da janela
+        self.root.title("VLC Media Player")
+        self.root.geometry("500x250")  # Aumentar a altura para acomodar a barra de volume
 
-        # Criar uma instância do VLC
-        self.instance = vlc.Instance()
+        # Definir opções de inicialização do VLC para desativar título de vídeo
+        self.instance = vlc.Instance('--vout=glwin32', '--no-video-title-show')
+        if not self.instance:
+            raise Exception("Falha ao criar a instância do VLC")
+
         self.player = self.instance.media_player_new()
 
         # Variável para armazenar o caminho do ficheiro ou URL
@@ -49,6 +52,11 @@ class VLCPlayer:
 
         self.exit_button = tk.Button(self.root, text="Sair", command=self.exit_player)
         self.exit_button.pack(side=tk.LEFT, padx=10, pady=10)
+
+        # Adicionar a barra de volume
+        self.volume_scale = tk.Scale(self.root, from_=0, to=100, orient=tk.HORIZONTAL, label="Volume", command=self.set_volume)
+        self.volume_scale.set(50)  # Volume padrão de 50%
+        self.volume_scale.pack(side=tk.BOTTOM, fill=tk.X, padx=10, pady=10)
 
     # Função para abrir ficheiro local
     def open_file(self):
@@ -81,6 +89,11 @@ class VLCPlayer:
     def exit_player(self):
         self.player.stop()
         self.root.quit()
+
+    # Função para ajustar o volume
+    def set_volume(self, volume):
+        volume = int(volume)
+        self.player.audio_set_volume(volume)
 
 # Função principal para iniciar a aplicação
 def main():

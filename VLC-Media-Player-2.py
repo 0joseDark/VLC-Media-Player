@@ -20,11 +20,14 @@ import vlc
 class VLCPlayer:
     def __init__(self, root):
         self.root = root
-        self.root.title("VLC Media Player")  # Título da janela
-        self.root.geometry("500x200")  # Tamanho da janela
+        self.root.title("VLC Media Player")
+        self.root.geometry("500x200")
 
-        # Criar uma instância do VLC
-        self.instance = vlc.Instance()
+        # Definir opções de inicialização do VLC para desativar título de vídeo
+        self.instance = vlc.Instance('--vout=glwin32', '--no-video-title-show')  # Remover opção '--no-taskbar-icons'
+        if not self.instance:
+            raise Exception("Falha ao criar a instância do VLC")
+
         self.player = self.instance.media_player_new()
 
         # Variável para armazenar o caminho do ficheiro ou URL

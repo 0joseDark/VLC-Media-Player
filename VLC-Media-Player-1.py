@@ -20,11 +20,11 @@ import vlc
 class VLCPlayer:
     def __init__(self, root):
         self.root = root
-        self.root.title("VLC Media Player")  # Título da janela
-        self.root.geometry("500x200")  # Tamanho da janela
+        self.root.title("VLC Media Player")
+        self.root.geometry("500x200")
 
-        # Criar uma instância do VLC
-        self.instance = vlc.Instance()
+        # Definir o modo de saída de vídeo para 'opengl' para evitar erros com 'directdraw'
+        self.instance = vlc.Instance('--vout=opengl')  # Modificar a saída de vídeo para OpenGL
         self.player = self.instance.media_player_new()
 
         # Variável para armazenar o caminho do ficheiro ou URL
