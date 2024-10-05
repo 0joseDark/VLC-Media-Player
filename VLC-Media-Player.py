@@ -1,7 +1,18 @@
-import tkinter as tk
-from tkinter import filedialog, messagebox
-import vlc
 import os
+import ctypes
+import tkinter as tk
+from tkinter import filedialog, simpledialog, messagebox
+import vlc
+
+# Indicar o caminho completo para o libvlc.dll
+libvlc_path = r'C:\Users\jose\Documents\libvlc\libvlc.dll'
+
+# Verificar se o ficheiro libvlc.dll existe no caminho fornecido
+if not os.path.exists(libvlc_path):
+    raise FileNotFoundError(f'O ficheiro libvlc.dll não foi encontrado em: {libvlc_path}')
+
+# Carregar a biblioteca manualmente
+ctypes.CDLL(libvlc_path)
 
 # Classe principal para o media player
 class VLCPlayer:
@@ -10,7 +21,7 @@ class VLCPlayer:
         self.root.title("VLC Media Player")  # Título da janela
         self.root.geometry("500x200")  # Tamanho da janela
 
-        # Criar um player VLC
+        # Criar uma instância do VLC
         self.instance = vlc.Instance()
         self.player = self.instance.media_player_new()
 
@@ -40,14 +51,15 @@ class VLCPlayer:
     # Função para abrir ficheiro local
     def open_file(self):
         self.media_path = filedialog.askopenfilename(title="Escolha um ficheiro",
-                                                     filetypes=(("Todos os ficheiros", "*.*"), ("Ficheiros de vídeo", "*.mp4;*.avi;*.mkv"),
+                                                     filetypes=(("Todos os ficheiros", "*.*"),
+                                                                ("Ficheiros de vídeo", "*.mp4;*.avi;*.mkv"),
                                                                 ("Ficheiros de áudio", "*.mp3;*.wav")))
         if self.media_path:
             self.play_button.config(state=tk.NORMAL)
 
     # Função para abrir uma URL de stream
     def open_url(self):
-        self.media_path = tk.simpledialog.askstring("URL Stream", "Introduza o URL do stream:")
+        self.media_path = simpledialog.askstring("URL Stream", "Introduza o URL do stream:")
         if self.media_path:
             self.play_button.config(state=tk.NORMAL)
 
