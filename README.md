@@ -3,3 +3,4 @@
 # pip install python-vlc
 ** for libvlc.dll 
 # https://www.videolan.org/vlc/
+![Logo do projeto](./imagens/logo.png)
