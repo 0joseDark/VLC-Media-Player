@@ -2,8 +2,7 @@
 
 # pip install python-vlc
 ** for libvlc.dll install vlc videolan . has DLLs for windows, linux and mac
-the script sun work well on wndows
-Operating Systems: Windows 10
+the script work well on windows 10
 # https://www.videolan.org/vlc/
 play is "ligar"
 ""
